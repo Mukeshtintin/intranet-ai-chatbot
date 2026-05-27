@@ -6,12 +6,10 @@ const ollama = new Ollama({
 
 async function generateAnswer(question, context) {
   const prompt = `
-You are a company intranet AI assistant.
+Answer ONLY from the context below.
 
-Answer ONLY from the provided context.
-
-If answer is unavailable, say:
-"I could not find that information in company documents."
+If not found, say:
+"Information not found."
 
 Context:
 ${context}
@@ -21,13 +19,21 @@ ${question}
 `;
 
   const response = await ollama.chat({
-    model: "llama3.2",
+    model: "phi3:mini",
+
     messages: [
       {
         role: "user",
         content: prompt,
       },
     ],
+
+    options: {
+      temperature: 0,
+      num_predict: 80,
+      top_k: 20,
+      top_p: 0.7,
+    },
   });
 
   return response.message.content;

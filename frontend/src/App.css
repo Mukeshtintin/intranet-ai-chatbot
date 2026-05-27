@@ -25,7 +25,7 @@ h1 {
 .upload-box button,
 .input-area button,
 .suggestions button {
-  margin-top: 10px;
+  /* margin-top: 10px; */
   padding: 10px 15px;
   cursor: pointer;
 }
@@ -40,6 +40,14 @@ h1 {
   min-height: 300px;
   max-height: 400px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.message-wrapper.user-wrapper {
+  display: flex;
+  justify-content: end;
 }
 
 .message {
@@ -50,10 +58,12 @@ h1 {
 
 .message.user {
   background: #dbeafe;
+  width: 50%;
 }
 
 .message.assistant {
   background: #ecfccb;
+  width: 50%;
 }
 
 .input-area {

@@ -48,7 +48,7 @@ function ChatBox() {
     <div className="chat-box">
       <h2>Company AI Assistant</h2>
 
-      <div className="suggestions">
+      {/* <div className="suggestions">
         <button onClick={() => setQuestion("India office holidays")}>
           India office holidays
         </button>
@@ -60,16 +60,21 @@ function ChatBox() {
         <button onClick={() => setQuestion("Leave policy")}>
           Leave policy
         </button>
-      </div>
+      </div> */}
 
       <div className="messages">
         {messages.map((msg, index) => (
-          <Message
+          <div
             key={index}
-            role={msg.role}
-            content={msg.content}
-            sources={msg.sources}
-          />
+            className={`message-wrapper ${msg.role === "user" ? "user-wrapper" : "assistant-wrapper"
+              }`}
+          >
+            <Message
+              role={msg.role}
+              content={msg.content}
+              sources={msg.sources}
+            />
+          </div>
         ))}
       </div>
 
@@ -81,7 +86,7 @@ function ChatBox() {
           onChange={(e) => setQuestion(e.target.value)}
         />
 
-        <button onClick={askQuestion}>
+        <button onClick={askQuestion} type="submit">
           {loading ? "Thinking..." : "Send"}
         </button>
       </div>

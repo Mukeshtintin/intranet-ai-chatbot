@@ -3,7 +3,7 @@ function Message({ role, content, sources }) {
     <div className={`message ${role}`}>
       <p>{content}</p>
 
-      {sources && sources.length > 0 && (
+      {/* {sources && sources.length > 0 && (
         <div className="sources">
           <strong>Sources:</strong>
 
@@ -13,7 +13,7 @@ function Message({ role, content, sources }) {
             ))}
           </ul>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
