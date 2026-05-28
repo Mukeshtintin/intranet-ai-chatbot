@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../services/api";
+import "../styles/UploadBox.css";
 
 function UploadBox() {
   const [file, setFile] = useState(null);
@@ -29,15 +30,31 @@ function UploadBox() {
 
   return (
     <div className="upload-box">
-      <h2>Upload Company Documents</h2>
+      <div className="upload-header">
+        <div className="upload-icon">↑</div>
 
-      <input
-        type="file"
-        onChange={(e) => setFile(e.target.files[0])}
-      />
+        <div>
+          <h2>Upload Documents</h2>
+
+          <p>Add company PDFs, policies, SOPs, or files</p>
+        </div>
+      </div>
+
+      <div className="upload-area">
+        <input
+          type="file"
+          onChange={(e) => setFile(e.target.files[0])}
+        />
+
+        {file && (
+          <div className="file-name">
+            {file.name}
+          </div>
+        )}
+      </div>
 
       <button onClick={handleUpload}>
-        {loading ? "Uploading..." : "Upload"}
+        {loading ? "Uploading..." : "Upload File"}
       </button>
     </div>
   );
