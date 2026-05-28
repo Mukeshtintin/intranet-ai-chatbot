@@ -5,24 +5,31 @@ const client = new ChromaClient({
   port: 8000,
 });
 
-async function getCollection() {
-  const collections = await client.listCollections();
+async function getCollection(collectionName) {
+  const collections =
+    await client.listCollections();
 
   const existing = collections.find(
-    (c) => c.name === "company_docs"
+    (c) => c.name === collectionName
   );
 
+  // EXISTING COLLECTION
   if (existing) {
     return await client.getCollection({
-      name: "company_docs",
+      name: collectionName,
+      embeddingFunction: null,
     });
   }
 
+  // CREATE NEW COLLECTION
   return await client.createCollection({
-    name: "company_docs",
+    name: collectionName,
+
     metadata: {
       "hnsw:space": "cosine",
     },
+
+    embeddingFunction: null,
   });
 }
 

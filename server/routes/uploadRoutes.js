@@ -6,6 +6,8 @@ const { v4: uuidv4 } = require("uuid");
 
 const extractText = require("../services/documentService");
 
+const splitPolicies = require("../services/policySplitter");
+
 const chunkText = require("../utils/chunkText");
 
 const createEmbedding = require("../services/embeddingService");
@@ -22,33 +24,64 @@ router.post("/", upload.single("file"), async (req, res) => {
   try {
     const file = req.file;
 
-    const text = await extractText(file.path, file.mimetype);
+    const text = await extractText(
+      file.path,
+      file.mimetype
+    );
 
-    const chunks = chunkText(text);
+    const policySections =
+      splitPolicies(text);
 
-    const collection = await getCollection();
+    let totalChunks = 0;
 
-    for (const chunk of chunks) {
-      const embedding = await createEmbedding(chunk);
+    for (const [
+      collectionName,
+      policyText,
+    ] of Object.entries(policySections)) {
 
-      await collection.add({
-        ids: [uuidv4()],
-        documents: [chunk],
-        embeddings: [embedding],
-        metadatas: [
-          {
-            source: file.originalname,
-          },
-        ],
-      });
+      console.log(
+        "Uploading to Agent:",
+        collectionName
+      );
+
+      const chunks = chunkText(policyText);
+
+      totalChunks += chunks.length;
+
+      const collection =
+        await getCollection(collectionName);
+
+      for (const chunk of chunks) {
+
+        const embedding =
+          await createEmbedding(chunk);
+
+        await collection.add({
+          ids: [uuidv4()],
+
+          documents: [chunk],
+
+          embeddings: [embedding],
+
+          metadatas: [
+            {
+              source: file.originalname,
+              agent: collectionName,
+            },
+          ],
+        });
+      }
     }
 
     res.json({
       success: true,
-      message: "Document uploaded successfully",
-      chunksStored: chunks.length,
+      message:
+        "Document uploaded successfully",
+      chunksStored: totalChunks,
     });
+
   } catch (error) {
+
     console.error(error);
 
     res.status(500).json({
