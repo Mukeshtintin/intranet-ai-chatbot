@@ -5,12 +5,13 @@ const ollama = new Ollama({
 });
 
 async function createEmbedding(text) {
-  const response = await ollama.embeddings({
+
+  const response = await ollama.embed({
     model: "nomic-embed-text",
-    prompt: text,
+    input: text,
   });
 
-  return response.embedding;
+  return response.embeddings[0];
 }
 
 module.exports = createEmbedding;

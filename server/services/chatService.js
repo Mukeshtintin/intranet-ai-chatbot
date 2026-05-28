@@ -5,10 +5,13 @@ const ollama = new Ollama({
 });
 
 async function generateAnswer(question, context) {
+  console.log("Generating answer for question:", question);
   const prompt = `
-Answer ONLY from the context below.
+Answer ONLY using the context.
 
-If not found, say:
+Keep the answer short.
+
+If answer is missing say:
 "Information not found."
 
 Context:
@@ -16,10 +19,12 @@ ${context}
 
 Question:
 ${question}
+
+Answer:
 `;
 
   const response = await ollama.chat({
-    model: "phi3:mini",
+    model: "tinyllama",
 
     messages: [
       {
@@ -30,10 +35,8 @@ ${question}
 
     options: {
       temperature: 0,
-      num_predict: 80,
-      top_k: 20,
-      top_p: 0.7,
-    },
+      num_predict: 20,
+    }
   });
 
   return response.message.content;

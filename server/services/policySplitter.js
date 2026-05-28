@@ -1,48 +1,61 @@
 function splitPolicies(text) {
-  const sections = {};
+  const policies = {};
 
-  const policies = [
+  const lowerText = text.toLowerCase();
+
+  const sections = [
     {
-      key: "performance_policy",
-      title: "Performance Policy",
+      name: "performance_policy",
+      start: "performance policy",
     },
     {
-      key: "wfh_policy",
-      title: "Work From Office Policy",
+      name: "wfh_policy",
+      start: "work from office policy",
     },
     {
-      key: "leave_policy",
-      title: "Leave Policy",
+      name: "leave_policy",
+      start: "leave policy",
     },
     {
-      key: "dresscode_policy",
-      title: "Dress Code",
+      name: "dresscode_policy",
+      start: "dress code",
     },
     {
-      key: "noticeperiod_policy",
-      title: "Notice Period",
+      name: "noticeperiod_policy",
+      start: "notice period",
     },
   ];
 
-  for (let i = 0; i < policies.length; i++) {
-    const current = policies[i];
+  for (let i = 0; i < sections.length; i++) {
+    const current = sections[i];
 
-    const next = policies[i + 1];
+    const next = sections[i + 1];
 
-    const startIndex = text.indexOf(current.title);
+    const startIndex = lowerText.indexOf(
+      current.start
+    );
 
-    const endIndex = next
-      ? text.indexOf(next.title)
-      : text.length;
+    if (startIndex === -1) continue;
 
-    if (startIndex !== -1) {
-      sections[current.key] = text
-        .slice(startIndex, endIndex)
-        .trim();
+    let endIndex = text.length;
+
+    if (next) {
+      const nextIndex = lowerText.indexOf(
+        next.start
+      );
+
+      if (nextIndex !== -1) {
+        endIndex = nextIndex;
+      }
     }
+
+    policies[current.name] = text.slice(
+      startIndex,
+      endIndex
+    );
   }
 
-  return sections;
+  return policies;
 }
 
 module.exports = splitPolicies;

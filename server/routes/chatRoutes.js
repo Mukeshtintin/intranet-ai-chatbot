@@ -48,8 +48,16 @@ router.post("/", async (req, res) => {
 
     const results = await collection.query({
       queryEmbeddings: [embedding],
-      nResults: 2,
+      nResults: 3,
     });
+    console.log(
+      "Retrieved Documents:",
+      results.documents
+    );
+    console.log(
+      "Retrieved Metadata:",
+      results.metadatas
+    );
 
     console.timeEnd("vector-search");
 
@@ -73,7 +81,10 @@ router.post("/", async (req, res) => {
     // =========================
     // CONTEXT
     // =========================
-    const context = documents.join("\n\n");
+    const context = documents
+      .slice(0, 2)
+      .join("\n\n")
+      .slice(0, 800);
 
     // =========================
     // LLM

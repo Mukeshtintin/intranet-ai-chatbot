@@ -34,7 +34,7 @@ function ChatBox() {
 
     try {
       setLoading(true);
-
+console.log("Question Asked:", question);
       // YOUR ORIGINAL API
       const response = await API.post("/chat", {
         question,

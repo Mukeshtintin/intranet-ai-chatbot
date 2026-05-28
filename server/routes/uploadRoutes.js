@@ -55,7 +55,8 @@ router.post("/", upload.single("file"), async (req, res) => {
 
         const embedding =
           await createEmbedding(chunk);
-
+console.log("Chunk:", chunk);
+console.log("Embedding Length:", embedding.length);
         await collection.add({
           ids: [uuidv4()],
 
@@ -70,6 +71,9 @@ router.post("/", upload.single("file"), async (req, res) => {
             },
           ],
         });
+        console.log(
+  `Inserted into ${collectionName}`
+);
       }
     }
 

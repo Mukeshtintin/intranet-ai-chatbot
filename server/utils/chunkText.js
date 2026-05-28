@@ -1,12 +1,18 @@
-function chunkText(text, chunkSize = 300, overlap = 50) {
+function chunkText(text, chunkSize = 120, overlap = 20) {
+  const words = text.split(/\s+/);
+
   const chunks = [];
 
   let start = 0;
 
-  while (start < text.length) {
+  while (start < words.length) {
     const end = start + chunkSize;
 
-    chunks.push(text.slice(start, end));
+    const chunk = words
+      .slice(start, end)
+      .join(" ");
+
+    chunks.push(chunk);
 
     start += chunkSize - overlap;
   }
