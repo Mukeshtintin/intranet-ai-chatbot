@@ -430,6 +430,8 @@
   overflow-y: auto;
   padding: 20px;
   scroll-behavior: smooth;
+  overflow-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .chat-box {

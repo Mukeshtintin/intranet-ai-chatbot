@@ -32,6 +32,7 @@ function ChatBox() {
 
     setMessages((prev) => [...prev, userMessage]);
 
+    setQuestion("");
     try {
       setLoading(true);
 console.log("Question Asked:", question);
@@ -49,7 +50,6 @@ console.log("Question Asked:", question);
 
       setMessages((prev) => [...prev, aiMessage]);
 
-      setQuestion("");
     } catch (error) {
       console.error(error);
 
