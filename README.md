@@ -20,4 +20,9 @@ Human vs AI conversation
                  Final Answer
 
 
-Agent Calling - Scoring-based routing
+| Purpose       | Model            |
+| ------------- | ---------------- |
+| Embedding     | nomic-embed-text |
+| Chat          | tinyllama        |
+| Vector DB     | ChromaDB         |
+| Agent Routing | keyword score    |
