@@ -1,8 +1,14 @@
-const { Ollama } = require("ollama");
+// const { Ollama } = require("ollama");
+const { GoogleGenAI } = require("@google/genai");
 
-const ollama = new Ollama({
-  host: "http://127.0.0.1:11434",
+// const ollama = new Ollama({
+//   host: "http://127.0.0.1:11434",
+// });
+
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
 });
+
 
 async function generateAnswer(question, context) {
   console.log("Generating answer for question:", question);
@@ -23,8 +29,9 @@ ${question}
 Answer:
 `;
 
-  const response = await ollama.chat({
-    model: "tinyllama",
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash-lite",
+    contents: prompt,
 
     messages: [
       {
@@ -39,7 +46,7 @@ Answer:
     }
   });
 
-  return response.message.content;
+  return response.text;
 }
 
 module.exports = generateAnswer;
